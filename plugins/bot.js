@@ -363,8 +363,43 @@ async function convertAudioToBlackScreenVideo(_0x528238, _0x32b9b6) {
     return {
       result: false
     };
-  }
+  }  
 }
+smd(
+  {
+    pattern: "channel",
+    desc: "Shows system status with different designs.",
+    category: "general",
+    filename: __filename,
+    use: "channel",
+  },
+  async (message, input) => {
+    try {
+      const start = new Date().getTime();
+      const designs = [
+        async () => {
+          const imageBuffer = await axios.get(
+            "https://telegra.ph/file/4c2a2209b02ba65f47d08.jpg",
+            {
+              responseType: "arraybuffer",
+            }
+          );
+
+          const quoteResponse = await axios.get(
+            "https://api.maher-zubair.tech/misc/quote"
+          );
+          const quote = quoteResponse.data;
+          if (!quote || quote.status !== 200) {
+            return await message.reply("*Failed to fetch a quote.*");
+          }
+
+          const quoteText = `\n\n*"${quote.result.body}"*\n_- ${quote.result.author}_`;
+          const end = new Date().getTime();
+          const pingSeconds = (end - start) / 1000;
+          const captionText = `https://whatsapp.com/channel/0029VaZuGSxEawdxZK9CzM0Y\n\n*ʀᴇsᴘᴏɴsᴇ ʀᴀᴛᴇ:* ${pingSeconds} seconds${quoteText}\n\nhttps://www.youtube.com/@ibrahimmdgpt`;
+
+          return { image: imageBuffer.data, caption: captionText };
+        },
 smd({
   pattern: "audiourl",
   alias: ["black"],
